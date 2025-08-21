@@ -1,15 +1,14 @@
 {
-  "name": "praticaapi-doc",
+  "name": "apibarbearia",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node swagger.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "type": "module",
+  "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^5.1.0",

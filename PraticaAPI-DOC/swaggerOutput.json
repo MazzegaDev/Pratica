@@ -14,13 +14,29 @@
   "paths": {
     "/": {
       "get": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Lista todos os usuarios",
         "description": "",
         "responses": {
           "200": {
             "description": "OK"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Nenhum usuario encontrado na consulta",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/erro"
+                }
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -28,6 +44,10 @@
         }
       },
       "post": {
+        "tags": [
+          "usuario"
+        ],
+        "summary": "Cadastra um novo usuario",
         "description": "",
         "responses": {
           "200": {
@@ -41,21 +61,11 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
-            "application/json": {
+            "applicationJson": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "example": "any"
-                  },
-                  "name": {
-                    "example": "any"
-                  },
-                  "email": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/usuario"
               }
             }
           }
@@ -122,6 +132,38 @@
           "500": {
             "description": "Internal Server Error"
           }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "erro": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string",
+            "example": "Ocorreu um erro"
+          }
+        },
+        "xml": {
+          "name": "erro"
+        }
+      },
+      "usuario": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "nome"
+          },
+          "email": {
+            "type": "string",
+            "example": "email"
+          }
+        },
+        "xml": {
+          "name": "usuario"
         }
       }
     }

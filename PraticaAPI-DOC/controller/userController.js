@@ -2,10 +2,17 @@ import userEntity from "../entities/userEntity.js";
 import userRepository from "../repository/userRepository.js";
 
 export default class userController {
+
+  #repo;
+
+  constructor(){
+    this.#repo = new userRepository();
+  }
+
   list(req, res) {
     try {
-      let userRepo = new userRepository();
-      let userList = userRepo.list();
+      
+      let userList = this.#repo.list();
       if (userList.length > 0) {
         return res.status(200).json(userList);
       } else {
@@ -25,8 +32,7 @@ export default class userController {
       if (name && email) {
         let id = Date.now();
         let userEnt = new userEntity(id, name, email);
-        let userRepo = new userRepository();
-        let insert = userRepo.addNewUser(userEnt);
+        let insert = this.#repo.addNewUser(userEnt);
         if (insert == true) {
           return res.status(200).json({ msg: "Novo usuario cadastrado" });
         } else {
@@ -46,9 +52,8 @@ export default class userController {
   deleteUser(req, res) {
     try {
       let { id } = req.params;
-      let userRepo = new userRepository();
-      if (userRepo.searchId(id)) {
-        userRepo.deleteUser(id);
+      if (this.#repo.searchId(id)) {
+        this.#repo.deleteUser(id);
         return res.status(200).json({ msg: "Usuario excluido." });
       } else {
         return res.status(400).json({ msg: "Esse usuario nao existe" });
@@ -63,14 +68,13 @@ export default class userController {
     try {
       let { id, name, email } = req.body;
       if(id && name && email){
-        let userRepo = new userRepository();
-        if(userRepo.searchId(id)){
+        if(this.#repo.searchId(id)){
             /*
                 Cria uma nova entidade para sobrescrever
                 os dados da antiga
             */
             let userEnt = new userEntity(id, name, email) 
-            userRepo.updateUser(userEnt);
+            this.#repo.updateUser(userEnt);
             return res.status(200).json({msg: "Dados do usuario atualizado com sucesso"})
         }else{
             return res.status(404).json({msg: "Esse usuario nao existe"})
